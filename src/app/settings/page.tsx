@@ -32,6 +32,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import SaveIcon from '@mui/icons-material/Save';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import api from '@/lib/api';
+import { imageConcat } from '@/lib/imageConcat';
 
 const PageHeader = styled(Box)(({ theme }) => ({
   marginBottom: theme.spacing(6),
@@ -205,7 +206,7 @@ export default function MasterDataPage() {
       setCuisineName(cuisine.name);
       setDescription(cuisine.description || '');
       setIsActive(cuisine.isActive);
-      setImagePreview(cuisine.image || null);
+      setImagePreview(imageConcat(cuisine.image || ''));
     } else {
       setEditingCuisine(null);
       setCuisineName('');
@@ -254,7 +255,8 @@ export default function MasterDataPage() {
         const uploadRes = await api.post('/upload', formData, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
-        imageUrl = uploadRes.data.data.url;
+        console.log('image res ',uploadRes)
+        imageUrl = uploadRes?.data?.data?.imageUrl || '';
       }
 
       const payload = { 
@@ -355,7 +357,7 @@ export default function MasterDataPage() {
                         {cuisine.image ? (
                           <Box 
                             component="img" 
-                            src={cuisine.image} 
+                            src={imageConcat(cuisine.image)} 
                             sx={{ width: 40, height: 40, borderRadius: 2, objectFit: 'cover' }} 
                             onError={(e: any) => e.target.src = 'https://placehold.co/40x40?text=?'}
                           />
@@ -531,7 +533,7 @@ export default function MasterDataPage() {
                   type="file"
                   hidden
                   ref={fileInputRef}
-                  accept="image/png,image/svg+xml"
+                  accept="image/png,image/svg+xml,image/jpeg,image/jpg,image/webp,image/avif"
                   onChange={handleFileChange}
                 />
                 <UploadBox onClick={() => fileInputRef.current?.click()}>
