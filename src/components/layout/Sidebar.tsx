@@ -19,6 +19,8 @@ import RestaurantIcon from '@mui/icons-material/Restaurant';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
 import AnalyticsIcon from '@mui/icons-material/BarChart';
+import ArticleIcon from '@mui/icons-material/Article';
+import QuizIcon from '@mui/icons-material/Quiz';
 
 const SidebarContainer = styled('nav')(({ theme }) => ({
   width: 280,
@@ -91,6 +93,11 @@ const systemItems = [
   { text: 'Master Data', icon: <SettingsSuggestIcon />, path: '/settings' },
 ];
 
+const cmsItems = [
+  { text: 'CMS', icon: <ArticleIcon />, path: '/cms' },
+  { text: 'FAQ Management', icon: <QuizIcon />, path: '/cms/faq' },
+];
+
 export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
@@ -152,6 +159,9 @@ export default function Sidebar() {
 
       <NavSectionHeader>Management</NavSectionHeader>
       {renderList(managementItems)}
+
+      <NavSectionHeader>CMS</NavSectionHeader>
+      {renderList(cmsItems)}
 
       <Box sx={{ mt: 'auto' }}>
         <NavSectionHeader>System</NavSectionHeader>
